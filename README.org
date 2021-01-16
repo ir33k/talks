@@ -1,0 +1,2 @@
+#+TITLE: Animations in Vanilla Java Script
+#+DATE:  [2021-01-19 wto]
