@@ -3,11 +3,20 @@
 <p></p>
 
 <script>
+  /*
+   * To avoid animation running faster on high refresh rate screens we
+   * need to control fps (frames per seconds).  To achieve that we can
+   * use timestamp provided as first argument in callback function
+   * passed to window.requestAnimationFrame.
+   *
+   * With this we can update any value on each frame.  In this example
+   * we increment value of counter on each frame.
+   */
+
   const element = document.querySelector('p')
   const fps = 30
   let lastTime = 0, counter = 0
 
-  /** @param {DOMHighResTimeStamp} timestamp {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp} */
   function animationLoop (timestamp) {
     if (timestamp - lastTime >= 1000 / fps) {
       lastTime = timestamp
@@ -18,7 +27,6 @@
     window.requestAnimationFrame(animationLoop)
   }
 
-  /** @see {@link https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame} */
   window.requestAnimationFrame(animationLoop)
 </script>
 

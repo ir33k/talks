@@ -3,17 +3,33 @@
 <p></p>
 
 <script>
+  /*
+   * 1. window.requestAnimationFrame should be used to perform
+   *    animation operations instead of setInterval or setTimeout.
+   *    It's because callback function passed as an argument to
+   *    window.requestAnimationFrame will be evaluated right before
+   *    browser repaints window.  This ensure better performance.
+   *
+   *    requestAnimationFrame documentation:
+   *    https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+   *
+   * 2. Callback function will receive timestamp as first argument
+   *    with value in milliseconds that tells us how much time pass
+   *    since first call of window.requestAnimationFrame.
+   *
+   *    DOMHighResTimeStamp documentation:
+   *    https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp
+   *
+   * TODO Show timestamp in seconds.
+   * TODO Show how to stop animation at any time.
+   */
+
   const element = document.querySelector('p')
 
-  /** @param {DOMHighResTimeStamp} timestamp {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp} */
   function animationLoop (timestamp) {
     element.textContent = `timestamp: ${timestamp}`
     window.requestAnimationFrame(animationLoop)
-
-    // TODO show seconds
-    // TODO stop animation
   }
 
-  /** @see {@link https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame} */
   window.requestAnimationFrame(animationLoop)
 </script>
