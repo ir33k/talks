@@ -15,17 +15,17 @@
 
   const element = document.querySelector('div')
   const fps = 60
-  let lastTime = 0, deltaTime, offset = 40, x = 0, xMax = 500
+  let lastTime = 0, deltaTime, xOffset = 40, x = 0, xMax = 500
 
   function animationLoop (timestamp) {
     if (timestamp - lastTime >= 1000 / fps) {
       deltaTime = (timestamp - lastTime) * 0.01
       lastTime = timestamp
 
-      x = Math.max(0, Math.min((x + offset) * deltaTime, xMax))
+      x = Math.max(0, Math.min(x + xOffset * deltaTime, xMax))
 
       if (x >= xMax || x <= 0) {
-        offset *= -1
+        xOffset *= -1
         console.timeEnd()
         console.time()
       }

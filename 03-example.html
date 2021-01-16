@@ -5,22 +5,22 @@
 <script>
   /*
    * In this example we change value of `x` on each frame by value of
-   * `offset` in range from 0 to `xMax`.  Then value of `x` is used to
+   * `xOffset` in range from 0 to `xMax`.  Then value of `x` is used to
    * set position of square element.
    */
 
   const element = document.querySelector('div')
   const fps = 60
-  let lastTime = 0, offset = 10, x = 0, xMax = 500
+  let lastTime = 0, xOffset = 10, x = 0, xMax = 500
 
   function animationLoop (timestamp) {
     if (timestamp - lastTime >= 1000 / fps) {
       lastTime = timestamp
 
-      x = Math.max(0, Math.min(x + offset, xMax))
+      x = Math.max(0, Math.min(x + xOffset, xMax))
 
       if (x >= xMax || x <= 0) {
-        offset *= -1
+        xOffset *= -1
         console.timeEnd()
         console.time()
       }
