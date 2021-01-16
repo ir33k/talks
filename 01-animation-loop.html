@@ -1,0 +1,19 @@
+<meta charset="utf-8">
+
+<p></p>
+
+<script>
+  const element = document.querySelector('p')
+
+  /** @param {DOMHighResTimeStamp} timestamp {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp} */
+  function animationLoop (timestamp) {
+    element.textContent = `timestamp: ${timestamp}`
+    window.requestAnimationFrame(animationLoop)
+
+    // TODO show seconds
+    // TODO stop animation
+  }
+
+  /** @see {@link https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame} */
+  window.requestAnimationFrame(animationLoop)
+</script>
