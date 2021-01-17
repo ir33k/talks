@@ -14,15 +14,11 @@
 
   const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext('2d')
-
-  function randomInt (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
+  const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+  const colors = ['black', 'red', 'green', 'blue']
 
   canvas.width  = randomInt(256, 512)
   canvas.height = randomInt(256, 512)
-
-  const colors = ['black', 'red', 'green', 'blue']
 
   class Ball {
     constructor () {
@@ -34,62 +30,41 @@
     }
 
     draw () {
-      ctx.save()
       ctx.fillStyle = this.color
       ctx.beginPath()
-      ctx.ellipse(this.position.x, this.position.y,
-                  this.radius, this.radius, 0, 0, 2 * Math.PI)
+      ctx.ellipse(this.position.x, this.position.y, this.radius, this.radius, 0, 0, 2 * Math.PI)
       ctx.fill()
-      ctx.restore()
-    }
-
-    randomize () {
-      this.speed  = randomInt(8, 32)
-      this.radius = randomInt(4, 16)
-      this.color  = colors[randomInt(0, colors.length-1)]
     }
 
     update (deltaTime) {
-      this.position.x += this.direction.x * this.speed * deltaTime
-      this.position.y += this.direction.y * this.speed * deltaTime
+      ;[['x', canvas.width], ['y', canvas.height]].forEach(([p, size]) => {
+        this.position[p] += this.direction[p] * this.speed * deltaTime
 
-      // collision x
-      if (this.direction.x > 0 && this.position.x + this.radius > canvas.width  ||
-          this.direction.x < 0 && this.position.x - this.radius < 0) {
-        this.direction.x *= -1
-        this.randomize()
-      }
-
-      // collision y
-      if (this.direction.y > 0 && this.position.y + this.radius > canvas.height ||
-          this.direction.y < 0 && this.position.y - this.radius < 0) {
-        this.direction.y *= -1
-        this.randomize()
-      }
+        // collision
+        if (this.direction[p] > 0 && this.position[p] + this.radius > size  ||
+            this.direction[p] < 0 && this.position[p] - this.radius < 0) {
+          this.direction[p] *= -1
+          this.speed = randomInt(8, 32)
+          this.radius = randomInt(4, 16)
+          this.color = colors[randomInt(0, colors.length-1)]
+        }
+      })
     }
   }
 
   const balls = new Array(6).fill(0).map(() => new Ball())
-
-  function update (deltaTime) {
-    balls.forEach(ball => ball.update(deltaTime))
-  }
-
-  function render () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    balls.forEach(ball => ball.draw())
-  }
-
-  const fps = 60
-  let lastTime = 0, animationIsPlaying = true
+  let lastTime = 0, animationIsPlaying = true, deltaTime
 
   function gameLoop (timestamp) {
     window.requestAnimationFrame(gameLoop)
 
-    if (timestamp - lastTime >= 1000 / fps) {
+    if (timestamp - lastTime >= 1000 / 60) {
       if (animationIsPlaying) {
-        update((timestamp - lastTime) * 0.01)
-        render()
+        deltaTime = (timestamp - lastTime) * 0.01
+
+        balls.forEach(ball => ball.update(deltaTime))
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        balls.forEach(ball => ball.draw())
       }
       lastTime = timestamp 
     }
@@ -98,10 +73,6 @@
   window.requestAnimationFrame(gameLoop)
 
   window.addEventListener('keypress', (event) => {
-    switch (event.key) {
-    case ' ': case 'k': case 'p':
-      animationIsPlaying = !animationIsPlaying
-      break
-    }
+    if (event.key == ' ') animationIsPlaying = !animationIsPlaying
   })
 </script>
