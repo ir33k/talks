@@ -26,11 +26,11 @@
 
   class Ball {
     constructor () {
-      this.color    = colors[randomInt(0, colors.length-1)]
-      this.radius   = randomInt(4, 16)
-      this.speed    = randomInt(8, 32)
-      this.position = { x: canvas.width/2, y: canvas.height/2 }
-      this.velocity = { x: randomInt(-10, 10) * 0.1, y: randomInt(-10, 10) * 0.1 }
+      this.color     = colors[randomInt(0, colors.length-1)]
+      this.radius    = randomInt(4, 16)
+      this.speed     = randomInt(8, 32)
+      this.position  = { x: canvas.width/2, y: canvas.height/2 }
+      this.direction = { x: randomInt(-10, 10) * 0.1, y: randomInt(-10, 10) * 0.1 }
     }
 
     draw () {
@@ -50,20 +50,20 @@
     }
 
     update (deltaTime) {
-      this.position.x += this.velocity.x * this.speed * deltaTime
-      this.position.y += this.velocity.y * this.speed * deltaTime
+      this.position.x += this.direction.x * this.speed * deltaTime
+      this.position.y += this.direction.y * this.speed * deltaTime
 
       // collision x
-      if (this.velocity.x > 0 && this.position.x + this.radius > canvas.width  ||
-          this.velocity.x < 0 && this.position.x - this.radius < 0) {
-        this.velocity.x *= -1
+      if (this.direction.x > 0 && this.position.x + this.radius > canvas.width  ||
+          this.direction.x < 0 && this.position.x - this.radius < 0) {
+        this.direction.x *= -1
         this.randomize()
       }
 
       // collision y
-      if (this.velocity.y > 0 && this.position.y + this.radius > canvas.height ||
-          this.velocity.y < 0 && this.position.y - this.radius < 0) {
-        this.velocity.y *= -1
+      if (this.direction.y > 0 && this.position.y + this.radius > canvas.height ||
+          this.direction.y < 0 && this.position.y - this.radius < 0) {
+        this.direction.y *= -1
         this.randomize()
       }
     }
