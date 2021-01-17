@@ -30,7 +30,7 @@
       this.radius   = randomInt(4, 16)
       this.speed    = randomInt(8, 32)
       this.position = { x: canvas.width/2, y: canvas.height/2 }
-      this.velocity = { x: 1, y: 1 }
+      this.velocity = { x: randomInt(-10, 10) * 0.1, y: randomInt(-10, 10) * 0.1 }
     }
 
     draw () {
