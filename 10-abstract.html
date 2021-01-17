@@ -89,9 +89,9 @@
 
   timeline({ fps: 60, stagger: -900 }, [...elements].map((element, i) => ({
     delay: 0, duration: 1000, ease: easeOutBounce,
-    values: { s: [0, fibonacci(i+1)*20], opacity: [0, 1] },
+    values: { s: [0, fibonacci(i+1)/4], opacity: [0, 1] },
     onUpdate: ({s, opacity}) => {
-      element.style.transform = `scale(${s}%)`
+      element.style.transform = `scale(${s})`
       element.style.opacity = opacity
     }
   })))
