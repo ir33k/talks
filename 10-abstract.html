@@ -1,9 +1,20 @@
 <meta charset="utf-8">
 
-<div class="black" style="width:64px; height:64px; background:black"></div>
-<div class="red"   style="width:64px; height:64px; background:red"></div>
-<div class="green" style="width:64px; height:64px; background:green"></div>
-<div class="blue"  style="width:64px; height:64px; background:blue"></div>
+<style>
+  div {
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    mix-blend-mode: multiply;
+    background-color: #ddd;
+  }
+</style>
+
+<div></div> <div></div> <div></div> <div></div> <div></div>
+<div></div> <div></div> <div></div> <div></div> <div></div>
 
 <script>
   /*
@@ -11,142 +22,77 @@
    * for creating animations that fulfill specific needs.
    */
 
-  const elements = {
-    black : document.querySelector('div.black'),
-    red   : document.querySelector('div.red'),
-    green : document.querySelector('div.green'),
-    blue  : document.querySelector('div.blue'),
-  }
-  
-  const easeTypes = {
-    linear     : (t, d) => t/d,
-    inQuart    : (t, d) => (t=t/d)*t*t*t,
-    outQuart   : (t, d) => -((t=t/d-1)*t*t*t-1),
-    inOutQuart : (t, d) => ((t/=d/2) < 1) ? 1/2*t*t*t*t : -1/2 * ((t-=2)*t*t*t - 2),
-  }
+  const elements = document.querySelectorAll('div')
 
-  const animateRepeatType = {
-    none: 0,
-    loop: 1,
-    yoyo: 2,
-  }
+  const fibonacci = n => n <= 1 ? n : fibonacci(n-1) + fibonacci(n-2)
 
-  /**
-   * @param {Object} settings
-   * @param {Number} settings.fps
-   */
-  /**
-   * TODO add description
-   * @typedef {Object} Animate~options
-   * @property {boolean} hasCourage - Indicates whether the Courage component is present.
-   * @property {boolean} hasPower - Indicates whether the Power component is present.
-   * @property {boolean} hasWisdom - Indicates whether the Wisdom component is present.
-   */
-
-  /**
-   * @param {Object}             options
-   * @param {Number}             options.duration
-   * @param {Number}             [options.delay=0]
-   * @param {Function}           [options.ease=easeTypes.linear]
-   * @param {Animate~repeatType} [options.repeat=animateRepeatType.none]
-   * @param {Object}             options.values
-   * @param {Function}           options.onUpdate
-   */
-  function animate (settings, animations) {
-    let lastTime = 0
-
-    function ease (easeFunction, startValue, endValue, currentTime, duration) {
-      const easeResult = easeFunction(Math.min(currentTime, duration), duration)
-      return startValue + easeResult * (endValue - startValue)
+  const easeOutBounce = (t, d) => {
+    if ((t/=d) < (1/2.75)) {
+      return (7.5625*t*t)
+    } else if (t < (2/2.75)) {
+      return (7.5625*(t-=(1.5/2.75))*t + .75)
+    } else if (t < (2.5/2.75)) {
+      return (7.5625*(t-=(2.25/2.75))*t + .9375)
+    } else {
+      return (7.5625*(t-=(2.625/2.75))*t + .984375)
     }
+  }
+
+  function ease (easeFunction, startValue, endValue, currentTime, duration) {
+    const easeResult = easeFunction(Math.min(currentTime, duration), duration)
+    return startValue + easeResult * (endValue - startValue)
+  }
+
+  function timeline (settings, animations) {
+    const fpsMs = 1000 / settings.fps
+    const animationsLeft = new Set()
+    let nextFrameTimestamp = 0
 
     function animationLoop (timestamp) {
-      window.requestAnimationFrame(animationLoop)
+      if (animationsLeft.size)
+        window.requestAnimationFrame(animationLoop)
 
-      if (timestamp - lastTime >= 1000 / settings.fps) {
-        lastTime = timestamp
+      if (timestamp < nextFrameTimestamp) return
+      nextFrameTimestamp = timestamp + fpsMs
 
-        animations.forEach(animation => {
-          if (timestamp < animation.delay) return
+      animationsLeft.forEach(animation => {
+        if (timestamp < animation.delay) return
 
-          const values = {...animation.values}
+        if (timestamp >= animation.delay + animation.duration) {
+          animationsLeft.delete(animation)
+          return
+        }
 
-          for (let [key, [start, end]] of Object.entries(animation.values)) {
-            values[key] = ease(animation.ease, start, end,
-                               timestamp - animation.delay, animation.duration)
-          }
-
-          animation.onUpdate(values)
-
-          // repeat animation
-          if (timestamp >= animation.duration + animation.delay) {
-            switch (animation.repeat) {
-            case animateRepeatType.yoyo:
-              for (let [key, [start, end]] of Object.entries(animation.values))
-                animation.values[key] = [end, start]
-              // intentional missing "break"
-            case animateRepeatType.loop:
-              animation.delay = timestamp
-              break
-            }
-          }
-        })
-      }
+        animation.onUpdate(Object.keys(animation.values).reduce((acc, key) => {
+          acc[key] = ease(
+            animation.ease,
+            animation.values[key][0],
+            animation.values[key][1],
+            timestamp - animation.delay,
+            animation.duration
+          )
+          return acc
+        }, {}))
+      })
     }
 
-    // apply defaults
-    animations = animations.map(animation => ({
-      delay  : 0,
-      ease   : easeTypes.linear,
-      repeat : animateRepeatType.none,
-      ...animation,
-    }))
+    animationsLeft.add(animations[0])
+    for (let i = 1; i < animations.length; i++) {
+      animations[i].delay += animations[i-1].delay
+      animations[i].delay += animations[i-1].duration
+      animations[i].delay += settings.stagger
+      animationsLeft.add(animations[i])
+    }
 
     window.requestAnimationFrame(animationLoop)
   }
 
-  animate({ fps: 60 }, [
-    {
-      duration: 5000,
-      delay: 2000,
-      ease: easeTypes.inQuart,
-      repeat: animateRepeatType.loop,
-      values: {
-        x: [0, 500],
-        y: [10, 90],
-      },
-      onUpdate: (values) => {
-        elements.black.style.transform = `translate(${values.x}px, ${values.y}px)`
-      }
-    },
-  ])
-
-  animate({ fps: 10 }, [
-    {
-      duration: 5000,
-      delay: 2000,
-      ease: easeTypes.inQuart,
-      repeat: animateRepeatType.loop,
-      values: {
-        x: [0, 500],
-        y: [10, 90],
-      },
-      onUpdate: (values) => {
-        elements.red.style.transform = `translate(${values.x}px, ${values.y}px)`
-      }
-    },
-  ])
-  
-  animate({ fps: 1 }, [
-    {
-      duration: 5000,
-      values: { r: [0, 45] },
-      repeat: animateRepeatType.yoyo,
-      onUpdate: (values) => {
-        elements.green.style.transform = `rotate(${values.r}deg)`
-      }
-    },
-  ])
-
+  timeline({ fps: 60, stagger: -900 }, [...elements].map((element, i) => ({
+    delay: 0, duration: 1000, ease: easeOutBounce,
+    values: { s: [0, fibonacci(i+1)*20], opacity: [0, 1] },
+    onUpdate: ({s, opacity}) => {
+      element.style.transform = `scale(${s}%)`
+      element.style.opacity = opacity
+    }
+  })))
 </script>
-

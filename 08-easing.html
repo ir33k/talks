@@ -13,7 +13,7 @@
   const element = document.querySelector('div')
   const fps = 60, duration = 5000
   let lastTime = 0, xStart = 0, xEnd = 500, x = 0, currentTime = 0
-  
+
   const easeTypes = {
        inQuart : (t, d) =>   (t=t/d)  *t*t*t,
       outQuart : (t, d) => -((t=t/d-1)*t*t*t-1),

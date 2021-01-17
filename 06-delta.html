@@ -8,9 +8,9 @@
    * by correct amount no matter what fps value we use.
    *
    * It's recommended to use `deltaTime` always even if we are not
-   * planning on changing fps.  `animationLoop` is called with
+   * planning on changing fps because `animationLoop` is called with
    * slightly different interval each time because browser tries to
-   * call it before repainting window and this time might very.
+   * call it before repainting window and this time might vary.
    */
 
   const element = document.querySelector('div')
