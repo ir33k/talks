@@ -1,0 +1,49 @@
+<meta charset="utf-8">
+
+<div style="width:64px; height:64px; background:black"></div>
+
+<script>
+  /*
+   * Another important topic is "easing".  Easing function describe
+   * value over time.
+   *
+   * Interactive examples: https://easings.net/
+   */
+
+  const element = document.querySelector('div')
+  const fps = 60, duration = 5000
+  let lastTime = 0, xStart = 0, xEnd = 500, x = 0, currentTime = 0
+  
+  const easeTypes = {
+       inQuart : (t, d) =>   (t=t/d)  *t*t*t,
+      outQuart : (t, d) => -((t=t/d-1)*t*t*t-1),
+    inOutQuart : (t, d) => ((t/=d/2) < 1) ? 1/2*t*t*t*t : -1/2 * ((t-=2)*t*t*t - 2),
+  }
+
+  function ease (easeFunction, startValue, endValue, currentTime, duration) {
+    const easeResult = easeFunction(Math.min(currentTime, duration), duration)
+    return startValue + easeResult * (endValue - startValue)
+  }
+
+  function animationLoop (timestamp) {
+    currentTime += timestamp - lastTime
+
+    if (timestamp - lastTime >= 1000 / fps) {
+      lastTime = timestamp
+
+      x = ease(easeTypes.inQuart, xStart, xEnd, currentTime, duration)
+      element.style.transform = `translateX(${x}px)`
+
+      // YoYo effect
+      if (currentTime >= duration) {
+        [xStart, xEnd] = [xEnd, xStart]
+        currentTime = 0
+      }
+    }
+
+    window.requestAnimationFrame(animationLoop)
+  }
+
+  window.requestAnimationFrame(animationLoop)
+</script>
+
