@@ -1,0 +1,107 @@
+<meta charset="utf-8">
+
+<p>Press [space] to toggle animation.</p>
+<canvas width="512" height="256" style="border:1px solid"></canvas>
+
+<script>
+  /*
+   * This example shows more interactive and randomize approach to
+   * animation.  It have become more a game loop.  Canvas size is
+   * randomized at start time.  Ball speed, radius and color is
+   * randomized on each collision with canvas border.  You can also
+   * pause and play animation by clicking space key.
+   */
+
+  const canvas = document.querySelector('canvas')
+  const ctx = canvas.getContext('2d')
+
+  function randomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  canvas.width  = randomInt(256, 512)
+  canvas.height = randomInt(256, 512)
+
+  const colors = ['black', 'red', 'green', 'blue']
+
+  class Ball {
+    constructor () {
+      this.color    = colors[randomInt(0, colors.length-1)]
+      this.radius   = randomInt(4, 16)
+      this.speed    = randomInt(8, 32)
+      this.position = { x: canvas.width/2, y: canvas.height/2 }
+      this.velocity = { x: 1, y: 1 }
+    }
+
+    draw () {
+      ctx.save()
+      ctx.fillStyle = this.color
+      ctx.beginPath()
+      ctx.ellipse(this.position.x, this.position.y,
+                  this.radius, this.radius, 0, 0, 2 * Math.PI)
+      ctx.fill()
+      ctx.restore()
+    }
+
+    randomize () {
+      this.speed  = randomInt(8, 32)
+      this.radius = randomInt(4, 16)
+      this.color  = colors[randomInt(0, colors.length-1)]
+    }
+
+    update (deltaTime) {
+      this.position.x += this.velocity.x * this.speed * deltaTime
+      this.position.y += this.velocity.y * this.speed * deltaTime
+
+      // collision x
+      if (this.velocity.x > 0 && this.position.x + this.radius > canvas.width  ||
+          this.velocity.x < 0 && this.position.x - this.radius < 0) {
+        this.velocity.x *= -1
+        this.randomize()
+      }
+
+      // collision y
+      if (this.velocity.y > 0 && this.position.y + this.radius > canvas.height ||
+          this.velocity.y < 0 && this.position.y - this.radius < 0) {
+        this.velocity.y *= -1
+        this.randomize()
+      }
+    }
+  }
+
+  const balls = new Array(6).fill(0).map(() => new Ball())
+
+  function update (deltaTime) {
+    balls.forEach(ball => ball.update(deltaTime))
+  }
+
+  function render () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    balls.forEach(ball => ball.draw())
+  }
+
+  const fps = 60
+  let lastTime = 0, animationIsPlaying = true
+
+  function gameLoop (timestamp) {
+    window.requestAnimationFrame(gameLoop)
+
+    if (timestamp - lastTime >= 1000 / fps) {
+      if (animationIsPlaying) {
+        update((timestamp - lastTime) * 0.01)
+        render()
+      }
+      lastTime = timestamp 
+    }
+  }
+
+  window.requestAnimationFrame(gameLoop)
+
+  window.addEventListener('keypress', (event) => {
+    switch (event.key) {
+    case ' ': case 'k': case 'p':
+      animationIsPlaying = !animationIsPlaying
+      break
+    }
+  })
+</script>
