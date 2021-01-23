@@ -1,0 +1,23 @@
+<meta charset="utf-8">
+
+<button id="play">play</button>
+<button id="pause">pause</button>
+<button id="restart">restart</button>
+
+<div style="width:64px; height:64px; background:#000; border-radius:100%"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * Each tween can be controlled using returned methods.
+   */
+
+  // https://greensock.com/docs/v3/GSAP/Tween
+
+  //    NOTE THAT ANIMATION IS PAUSED ------------------vvvvvvvvvvvv
+  const tween = gsap.from('div', { y: 400, duration: 2, paused: true })
+
+  document.getElementById('play')    .onclick = () => tween.play()
+  document.getElementById('pause')   .onclick = () => tween.pause()
+  document.getElementById('restart') .onclick = () => tween.restart()
+</script>

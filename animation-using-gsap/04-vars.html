@@ -11,13 +11,13 @@
    * We can animate any style value.
    */
 
-  // (toVars) Short notations for animating transform values
+  // gsap.to(target, toVars) Short notations for animating transform values
   gsap.to('#red', { x: 200, y: 200, rotate: 360, scale: 0.5, duration: 5 })
 
-  // (fromVars) Animate opacity and color
+  // gsap.from(target, fromVars) Animate opacity and color
   gsap.from('#green', { opacity: 0, backgroundColor: 'black', duration: 5 })
 
-  // Animate size
+  // gsap.fromTo(target, fromVars, toVars)
   gsap.fromTo(
     '#blue',
     { width:   0, height:  0 },             // fromVars

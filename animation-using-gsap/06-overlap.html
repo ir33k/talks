@@ -1,0 +1,27 @@
+<meta charset="utf-8">
+
+<div style="width:64px; height:64px; background:black"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * We can trigger different animations on the same object.
+   */
+
+  const target = document.querySelector('div')
+
+  gsap.from(target, {
+    y: 400,
+    duration: 2, repeat: -1, ease: 'bounce.in', yoyo: true,
+  })
+
+  gsap.from(target, {
+    rotation: -90,
+    duration: 0.1, ease: 'none', repeat: -1,
+  })
+
+  gsap.to(target, {
+    background: 'red',
+    duration: 1, ease: 'none', repeat: -1,
+  })
+</script>

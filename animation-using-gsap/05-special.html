@@ -1,0 +1,34 @@
+<meta charset="utf-8">
+<style> div { width:64px; height:64px; margin:2em; background:red } </style>
+
+<div></div> <div></div> <div></div> <div></div> <div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * "vars" objecy contains special properties that controll animation
+   * timing, flow and react to animation states.
+   */
+
+  gsap.to('div', {
+    // property (key), values pairs
+    x               : 400,
+    rotation        : 90,
+    backgroundColor : '#00ff00',
+
+    // spacial properties (values and callbacks)
+    // https://greensock.com/docs/v3/GSAP/Tween/vars
+    delay       : 1,
+    duration    : 2,
+    repeat      : -1,
+    repeatDelay : 0.5,
+    yoyo        : true,
+    ease        : 'easeOut', // https://greensock.com/docs/v3/Eases
+    stagger     : 0.2,       // https://greensock.com/docs/v3/Staggers
+
+    onStart     : () => { console.log('onStart') },
+    onRepeat    : () => { console.log('onRepeat') },
+    onUpdate    : () => { console.log('onUpdate') },
+    onComplete  : () => { console.log('onComplete') },
+  })
+</script>
