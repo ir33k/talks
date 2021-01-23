@@ -1,0 +1,34 @@
+<meta charset="utf-8">
+<style> div { width:64px; height:64px; margin:1em; background:#000 } </style>
+
+<div></div>
+<div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * With gsap.timeline you can create sequence animations by adding
+   * any number of tween's (animations) to timeline.  Then controll
+   * whole timeline with methods like: play, pause, repeat, seek,
+   * reverse and so one.
+   */
+  // https://greensock.com/docs/v3/GSAP/Timeline
+
+  const [square1, square2] = document.querySelectorAll('div')
+
+  // no timeline
+  gsap.from (square1, { opacity: 0,    duration: 1               })
+  gsap.to   (square1, { x: 400,        duration: 1,   delay: 1   })
+  gsap.to   (square1, { rotation: 360, duration: 0.5, delay: 2   })
+  gsap.to   (square1, { x: 0,          duration: 1,   delay: 2.5 })
+  gsap.to   (square1, { opacity: 0,    duration: 1,   delay: 3.5 })
+
+  // same animation but with timeline
+  const timeline = gsap.timeline({ repeat: -1 })
+
+  timeline.from (square2, { opacity: 0,    duration: 1   })
+  timeline.to   (square2, { x: 400,        duration: 1   })
+  timeline.to   (square2, { rotation: 360, duration: 0.5 })
+  timeline.to   (square2, { x: 0,          duration: 1   })
+  timeline.to   (square2, { opacity: 0,    duration: 1   })
+</script>
