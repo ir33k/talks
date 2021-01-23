@@ -1,0 +1,22 @@
+<meta charset="utf-8">
+<style> div { width: 64px; height: 64px; margin: 2em } </style>
+
+<div id="red"   style="background:#ff0000"></div>
+<div id="green" style="background:#00ff00"></div>
+<div id="blue"  style="background:#0000ff"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * Animation target can be selected in number of ways like:
+   *
+   * - By passing HTMLElement instance.
+   * - By CSS query selector.
+   */
+
+  const target = document.getElementById('red')
+
+  gsap.to(target,        { x: 200, duration: 5 })
+  gsap.to('#green',      { x: 200, duration: 5 })
+  gsap.to('[id="blue"]', { x: 200, duration: 5 })
+</script>
