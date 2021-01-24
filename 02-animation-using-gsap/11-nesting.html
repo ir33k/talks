@@ -1,0 +1,36 @@
+<meta charset="utf-8">
+<style> div { width:32px; height:32px; background-color: #000 } </style>
+
+<div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * DRY also apply to timelines.  You can create reusable timelines
+   * and compose them together in new timeline.
+   */
+
+  const target = document.querySelector('div')
+
+  const moveRightAndSpin = (target) => {
+    return gsap.timeline()
+      .to(target, { x: '+=100px',      duration: 1 })
+      .to(target, { rotate: '+=90deg', duration: .2 })
+  }
+
+  const moveDownAndSpin = (target) => {
+    return gsap.timeline()
+      .to(target, { y: '+=100px',      duration: 1 })
+      .to(target, { rotate: '+=90deg', duration: .2 })
+  }
+
+  gsap.timeline({ repeat: -1, yoyo: true })
+  .add(moveRightAndSpin(target))
+  .add(moveRightAndSpin(target), "+=0.5")
+  .add(moveDownAndSpin(target), "-=0.5")
+  .to(target, { scale: 2, duration: 1 })
+  .add(moveRightAndSpin(target))
+  .add(moveDownAndSpin(target), "-=1")
+  .add(moveDownAndSpin(target))
+
+</script>

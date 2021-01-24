@@ -14,7 +14,7 @@
 
   const [square1, square2] = document.querySelectorAll('div')
 
-  gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
+  gsap.timeline({ repeat: -1 })
   .to(square1, { x: 200, duration: 1 })
   .to(square1, { y: 200, duration: 1 })
   .to(square1, { x: 0,   duration: 1 })
@@ -24,6 +24,6 @@
   .to(square2, { x: 200, duration: 1 })
   .to(square2, { y: 200, duration: 1 }, "+=1")   // Wait 1s
   .to(square2, { x: 0,   duration: 1 }, "-=0.5") // Start 0.5s early
-  .to(square2, { y: 0,   duration: 1 })
+  .to(square2, { y: 0,   duration: 1 }, "-=0.5") // Start 0.5s early
 
 </script>
