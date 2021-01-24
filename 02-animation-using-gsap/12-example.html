@@ -53,15 +53,18 @@
         .from(elementList, { opacity: 0, y: 40, duration: 0.25 })
         .from(elementList.children, { opacity: 0, x: -20, duration: 0.10, stagger: 0.09 })
 
+  // start pulse animation on button element
   elementButton.addEventListener('mouseenter', () => {
     tweenButtonPulse.play()
   })
 
+  // stop pulse animation on button element
   elementButton.addEventListener('mouseleave', () => {
     tweenButtonPulse.pause()
     gsap.to(elementButton, { scale: 1, duration: 0.25 }) // restore size
   })
 
+  // open navigation menu
   elementButton.addEventListener('click', () => {
     tweenButtonPulse.pause()
     gsap.to(elementButton, { scale: 1, duration: 0.25 }) // restore size
@@ -69,11 +72,13 @@
     showNav.play()
   })
 
+  // close navigation menu
   elementNav.addEventListener('click', () => {
     showNav.timeScale(4) // speed up 4 times
     showNav.reverse()
   })
 
+  // prevent closing navigation menu when clicking inside links list
   elementList.addEventListener('click', (event) => {
     event.stopPropagation()
   })
