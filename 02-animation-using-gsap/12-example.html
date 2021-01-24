@@ -41,17 +41,22 @@
 
   gsap.from(elementButton, { y: -400, duration: 2, ease: 'bounce.out' })
 
-  const tweenButtonPulse = gsap.timeline({ repeat: -1, paused: true })
-        .to(elementButton, { scale: 1.2, duration: 0.5,  ease: 'none' })
-        .to(elementButton, { scale: 0.8, duration: 0.5,  ease: 'none' })
-        .to(elementButton, { scale: 1,   duration: 0.25, ease: 'none' })
+  const fadeInUp = (target, options = {}) => gsap.from(target, {
+    opacity: 0, y: '+=20',
+    duration: 0.25, ...options,
+  })
+
+  const tweenButtonPulse = gsap.to(elementButton, {
+    scale: 1.2,
+    repeat: -1, ease: Back.easeOut, yoyo: true, yoyoEase: true, paused: true,
+  })
 
   const showNav = gsap.timeline({ paused: true })
         .to(elementButton, { y: 40, opacity: 0, duration: 0.5 })
         .set(elementNav, { opacity: 0, display: 'flex' })
         .to(elementNav, { opacity: 1, background: 'rgba(0,0,0,0.5)' })
-        .from(elementList, { opacity: 0, y: 40, duration: 0.25 })
-        .from(elementList.children, { opacity: 0, x: -20, duration: 0.10, stagger: 0.09 })
+        .add(fadeInUp(elementList), '-=0.5')
+        .add(fadeInUp(elementList.children, { stagger: 0.05 }))
 
   // start pulse animation on button element
   elementButton.addEventListener('mouseenter', () => {
@@ -68,18 +73,14 @@
   elementButton.addEventListener('click', () => {
     tweenButtonPulse.pause()
     gsap.to(elementButton, { scale: 1, duration: 0.25 }) // restore size
-    showNav.timeScale(1)                                 // restore speed
-    showNav.play()
+    showNav.timeScale(1).play() // restore original speed and play
   })
 
   // close navigation menu
   elementNav.addEventListener('click', () => {
-    showNav.timeScale(4) // speed up 4 times
-    showNav.reverse()
+    showNav.timeScale(4).reverse() // speed up 4 times and reverse
   })
 
   // prevent closing navigation menu when clicking inside links list
-  elementList.addEventListener('click', (event) => {
-    event.stopPropagation()
-  })
+  elementList.addEventListener('click', (event) => event.stopPropagation())
 </script>
