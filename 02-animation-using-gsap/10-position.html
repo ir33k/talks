@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<style> div { width:32px; height:32px; margin-bottom:210px } </style>
+
+<div style="background-color: #ff0000"></div>
+<div style="background-color: #00ff00"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script>
+  /*
+   * Timeline position parameter is a topic on its own.  It allows to
+   * controll timing in relation to other animations in timeline.
+   */
+  // https://greensock.com/position-parameter
+
+  const [square1, square2] = document.querySelectorAll('div')
+
+  gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
+  .to(square1, { x: 200, duration: 1 })
+  .to(square1, { y: 200, duration: 1 })
+  .to(square1, { x: 0,   duration: 1 })
+  .to(square1, { y: 0,   duration: 1 })
+
+  gsap.timeline({ repeat: -1 })
+  .to(square2, { x: 200, duration: 1 })
+  .to(square2, { y: 200, duration: 1 }, "+=1")   // Wait 1s
+  .to(square2, { x: 0,   duration: 1 }, "-=0.5") // Start 0.5s early
+  .to(square2, { y: 0,   duration: 1 })
+
+</script>
