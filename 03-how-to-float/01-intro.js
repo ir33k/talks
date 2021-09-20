@@ -10,9 +10,9 @@
 
    1. Laugh at JS, but the result is correct.
 
-   2. It's not just JS (https://0.30000000000000004.com)
+   2. It's not just JS.  https://0.30000000000000004.com
 
-   3. IEEE 754 standard (https://ew.wikipedia.org/wiki/IEEE_754)
+   3. IEEE 754 standard.  https://ew.wikipedia.org/wiki/IEEE_754
 
 */
 
