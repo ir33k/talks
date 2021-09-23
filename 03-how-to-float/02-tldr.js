@@ -11,20 +11,20 @@
       languages have "decimal" type build in.  We can use library.
       https://www.npmjs.com/package/decimal.js
   
-   5. Use "toFixed" method:                                          */
+   5. Use "toFixed" method:                                            */
 
-   console.log(( 0.1 +  0.2).toFixed(1))    // => 0.3
-   console.log((10.1 + 10.2).toFixed(2))    // => 20.30
+      console.log(( 0.1 +  0.2).toFixed(1))    // => 0.3
+      console.log((10.1 + 10.2).toFixed(2))    // => 20.30
 
-/* 6. Carefully with big numbers                                     */
+/* 6. Carefully with big numbers                                       */
 
-   console.log((10.000000000000001 + 10.000000000000002).toFixed(15))
-   // => 20.000000000000004
-
-   console.log((10.000000000000001 + 10.000000000000002).toFixed(17))
-   // => 20.00000000000000355
+      console.log((10.000000000000001 + 10.000000000000002).toFixed(15))
+      // => 20.000000000000004
+      
+      console.log((10.000000000000001 + 10.000000000000002).toFixed(17))
+      // => 20.00000000000000355
 
 /* 7. Use BigInt build in object for integers higher than 2^53 - 1
       https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
 
-                                                                     */
+                                                                       */
