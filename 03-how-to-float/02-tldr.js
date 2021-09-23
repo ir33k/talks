@@ -27,4 +27,6 @@
 /* 7. Use BigInt build in object for integers higher than 2^53 - 1
       https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
 
-                                                                       */
+   8. You can also try to avoid operations on fractions                */
+   
+   console.log((0.1 * 10 + 0.2 * 10) / 10) // => 0.3
