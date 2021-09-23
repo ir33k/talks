@@ -29,4 +29,4 @@
 
    8. You can also try to avoid operations on fractions                */
    
-   console.log((0.1 * 10 + 0.2 * 10) / 10) // => 0.3
+      console.log((0.1 * 10 + 0.2 * 10) / 10) // => 0.3
