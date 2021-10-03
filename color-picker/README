@@ -1,0 +1,128 @@
+Creating color picker with color wheel (hsv color model)
+
+   1. "Know your requirements".  Demonstration of completed solution.  Show
+      basic version and describe our goal.  Note how little code is needed.
+
+      ./picker-final.html
+      ./picker-basic.html
+
+   2. "Know your data".  Explain color models.  Elaborate on rgb[a], hsv and
+      hsl[a].  Talk about conversion from input to output.
+
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb()
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgba()
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl()
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsla()
+
+   3. "Think on paper".  Draw color wheel.  Note that background pixels are
+      NOT used for color picking.  Show required output data.  Show how to
+      get from input to output values.
+
+   4. Puzzle time!
+
+      Piotrek rozmawia z Kasią.
+      Kasia rozmawia z Łukaszem.
+      Piotrek jest osobą pracującą.
+      Łukasz jest osobą bezrobotną.
+      
+      Czy osoba bezrobotna rozmawia z osobą pracującą?
+      
+      A) Tak
+      B) Nie
+      C) Brak wystarczającej ilości informacji
+
+   5. "If I can't code this, I don't understand it." - Phil Moriarty.  Live
+      codding time!
+
+      a) Start with <meta charset="utf-8">
+
+      b) Simple div as first background layer, width, height, border-radius,
+         background with gradient Use hsl() and note number of steps.
+
+         https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/conic-gradient()
+
+      c) Create second layer (gradually with position absolute, single color
+         background) with radial-gradient(white 10%, transparent 75%).
+
+         https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/radial-gradient()
+
+      d) Finish HTML/CSS part with <input type="color" value="ff00cb">
+
+      e) Start scripting with secret knowledge of "id" attribute.  Show
+        example on "picker" and "inputColor".
+
+      f) Create helper functions.
+
+         const toRGB = ([h,s,v]) => { // s and v are numbers in range from 0 to 1
+           const f = (n, k=(n+h/60)%6) => Math.round((v-v*s*Math.max(Math.min(k,4-k,1),0))*255)
+           return [f(5), f(3), f(1)]
+         }
+         const toHex = (rgb) => '#' + rgb.map(n => n.toString(16).padStart(2,'0')).join('')
+         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
+         const radToDeg = (radian) => radian * 180 / Math.PI
+
+      g) Gather known data.
+
+         const { width, height, x, y } = colorWheel.getBoundingClientRect()
+         const radius = Math.min(width, height) / 2
+
+      h) Talk about pointer events.  Define new event listener for picker.
+
+         https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events
+         https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
+
+         picker.addEventListener('pointerdown', (event) => { ... })
+
+      i) Get points relative to container and points relative to center.
+         Talk about coordinate systems in graphics.
+
+         const px = event.x - x
+         const py = event.y - y
+
+         const rx = px - width / 2
+         const ry = py - height / 2
+
+      j) Get all triangle edge lengths.
+
+         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/abs
+         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot
+
+         const tx = Math.abs(rx)
+         const ty = Math.abs(ry)
+         const tz = Math.hypot(tx, ty)
+
+      k) Talk about angle (hue) calculation with Math.atan2().
+
+         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2
+
+      l) Implement detecting quarters.
+
+         /**/ if (rx >= 0 && ry <= 0)    // top right quarter   
+         else if (rx >= 0 && ry >= 0)    // bottom right quarter
+         else if (rx <= 0 && ry >= 0)    // bottom left quarter 
+         else if (rx <= 0 && ry <= 0)    // top left quarter
+
+      m) Calculate angle in degrees for each quarter.
+
+         radToDeg(Math.atan2(tx, ty))      
+         radToDeg(Math.atan2(ty, tx)) + 90 
+         radToDeg(Math.atan2(tx, ty)) + 180
+         radToDeg(Math.atan2(ty, tx)) + 270
+
+      n) Calculate linear saturation.
+
+         Math.min(1, tz/radius)
+
+      o) Get final color in RGB.  Apply hex value to color input.
+
+      p) Show issue with saturation and update it to match background.
+
+         Math.pow(x, 1.6)
+
+   6. Summarize by talking about picker-final.html and go back to puzzle.
+
+
+
+;; Local Variables:
+;; fill-column: 76
+;; End:
