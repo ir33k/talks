@@ -21,24 +21,22 @@
     return [f(5), f(3), f(1)]
   }
   const toHex = (rgb) => '#' + rgb.map(n => n.toString(16).padStart(2,'0')).join('')
-  const radToDeg = (radian) => radian * 180 / Math.PI
 
   const { width, height, x, y } = colorWheel.getBoundingClientRect()
   const radius = Math.min(width, height) / 2
 
   colorWheel.addEventListener('pointerdown', (event) => {
-    const rx = event.x - x - width / 2     // x,y values relative to center
+    const rx = event.x - x - width / 2     // x,y relative to center
     const ry = event.y - y - height / 2
 
-    const tx = Math.abs(rx)                // x,y,z ege sizes of triangle
+    const tx = Math.abs(rx)                // x,y,z ege lengths of triangle
     const ty = Math.abs(ry)
     const tz = Math.hypot(tx, ty)
 
-    let angle
-    /**/ if (rx >= 0 && ry <= 0) angle = radToDeg(Math.atan2(tx, ty))       // top right quarter
-    else if (rx >= 0 && ry >= 0) angle = radToDeg(Math.atan2(ty, tx)) + 90  // bottom right quarter
-    else if (rx <= 0 && ry >= 0) angle = radToDeg(Math.atan2(tx, ty)) + 180 // bottom left quarter
-    else if (rx <= 0 && ry <= 0) angle = radToDeg(Math.atan2(ty, tx)) + 270 // top left quarter
+    let angle = Math.atan2(tx, ty) * 180 / Math.PI
+    /**/ if (rx >= 0 && ry >= 0) angle = 180 - angle    // right bottom quarter
+    else if (rx <= 0 && ry >= 0) angle = 180 + angle    // left bottom quarter
+    else if (rx <= 0 && ry <= 0) angle = 360 - angle    // left top quarter
 
     const saturation = Math.pow(Math.min(1, tz/radius), 1.6)
     const colorHSL = [angle, saturation, 1]

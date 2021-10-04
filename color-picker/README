@@ -24,9 +24,9 @@ Creating color picker with color wheel (hsv color model)
       Kasia rozmawia z Łukaszem.
       Piotrek jest osobą pracującą.
       Łukasz jest osobą bezrobotną.
-      
+
       Czy osoba bezrobotna rozmawia z osobą pracującą?
-      
+
       A) Tak
       B) Nie
       C) Brak wystarczającej ilości informacji
@@ -58,8 +58,6 @@ Creating color picker with color wheel (hsv color model)
            return [f(5), f(3), f(1)]
          }
          const toHex = (rgb) => '#' + rgb.map(n => n.toString(16).padStart(2,'0')).join('')
-         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
-         const radToDeg = (radian) => radian * 180 / Math.PI
 
       g) Gather known data.
 
@@ -97,17 +95,17 @@ Creating color picker with color wheel (hsv color model)
 
       l) Implement detecting quarters.
 
-         /**/ if (rx >= 0 && ry <= 0)    // top right quarter   
+         /**/ if (rx >= 0 && ry <= 0)    // top right quarter
          else if (rx >= 0 && ry >= 0)    // bottom right quarter
-         else if (rx <= 0 && ry >= 0)    // bottom left quarter 
+         else if (rx <= 0 && ry >= 0)    // bottom left quarter
          else if (rx <= 0 && ry <= 0)    // top left quarter
 
       m) Calculate angle in degrees for each quarter.
 
-         radToDeg(Math.atan2(tx, ty))      
-         radToDeg(Math.atan2(ty, tx)) + 90 
-         radToDeg(Math.atan2(tx, ty)) + 180
-         radToDeg(Math.atan2(ty, tx)) + 270
+         let angle = Math.atan2(tx, ty) * 180 / Math.PI
+         /**/ if (rx >= 0 && ry >= 0) angle = 180 - angle    // right bottom quarter
+         else if (rx <= 0 && ry >= 0) angle = 180 + angle    // left bottom quarter
+         else if (rx <= 0 && ry <= 0) angle = 360 - angle    // left top quarter
 
       n) Calculate linear saturation.
 
