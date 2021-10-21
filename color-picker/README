@@ -1,5 +1,9 @@
 Creating color picker with color wheel (hsv color model)
 
+   0. Explain motivation behind creating color picker from scratch.  Talk
+      about first reaction to new feature and confronting the belief that
+      stuff like that are above our skill level.
+
    1. "Know your requirements".  Demonstration of completed solution.  Show
       basic version and describe our goal.  Note how little code is needed.
 
