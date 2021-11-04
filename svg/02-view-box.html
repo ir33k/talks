@@ -1,0 +1,77 @@
+<meta charset="utf-8">
+<style> svg { border: 1px solid } </style>
+
+<!--
+
+   .................................   "viewBox" attribute defines what
+   .......+====================+....   part of SVG image is visible.
+   .......|             +--+   |....   It's like cropping an photo.
+   .......|             |  |   |....   Shapes can be places anywhere.
+   ...+---|-----+       +--+   |....
+   ...|...|     |              |....   Int this visual example we have
+   ...|...+====================+....   2 rectangles but "viewBox" area
+   ...+---------+...................   shows only part of second shape.
+   .................................
+
+   "viewBox" value contains 4 number separated with spaces.  First two
+   are x,y coordinates of your visible area and second two are width
+   and height of that area.
+
+      <svg viewBox="x y width height" ...>
+
+   https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
+
+   "viewBox" values are usually set to "0 0 width height" where width
+   and height is the size of the whole image.  Along with the same
+   values for width and height in width and height attributes we have
+   usual SVG tag like this one, with size 20x30 px:
+
+      <svg viewBox="0 0 20 30" width="20" height="30" xmlns="http://www.w3.org/2000/svg">
+
+   Note that width and height of "viewBox" can be different than width
+   and height of SVG itself defined by width and height attributes or
+   CSS styles.  This usually results in stretched image or white
+   margins on two sides.
+
+   By changing "viewBox" value dynamically you can create zoom in/out
+   effect or scroll effects.  Imagine long chart and you want to only
+   show small part of it and scroll with JS if necessary.  "viewBox"
+   is a way to do it.
+
+   Below you will find simple interactive example where you can change
+   each 4 values using range inputs.  Content of SVG includes red
+   rectangle, blue point that marks 0,0 position and gray rectangle
+   that covers the usually drawn space of SVG where all positive
+   coordinate values are.  Note that when you change values of
+   "viewBox" it's not a rectangle that moves but your viewing window
+
+-->
+
+<label>x</label>      <input type="range" step="1" min="-256" max="256" value="0">
+<label>y</label>      <input type="range" step="1" min="-256" max="256" value="0">
+<label>width</label>  <input type="range" step="1" min="0"    max="512" value="512">
+<label>height</label> <input type="range" step="1" min="0"    max="512" value="256">
+
+<pre><code></code></pre>
+
+<svg viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="512" height="512" fill="#f0f0f0" />
+  <rect x="20" y="10" width="100" height="100" fill="red" />
+  <rect x="0" y="0" width="4" height="4" fill="blue" />
+</svg>
+
+<script>
+  const svg    = document.querySelector('svg')
+  const code   = document.querySelector('code')
+  const inputs = Array.from(document.querySelectorAll('input'))
+
+  function onInput () {
+    svg.setAttribute('viewBox', inputs.map(input => input.value).join(' '))
+    svg.setAttribute('width', inputs[2].value)
+    svg.setAttribute('height', inputs[3].value)
+    code.innerText = svg.outerHTML
+  }
+
+  inputs.forEach(input => input.addEventListener('input', onInput))
+  onInput()
+</script>

@@ -1,0 +1,128 @@
+<meta charset="utf-8">
+<style> svg { border: 1px solid } </style>
+
+<!--
+
+   The most basic shapes that can be drawn are: rectangle, circle, ellipse,
+   line, polyline (line with many points) and polygon (closed shape with
+   many points).  All of them are easy to write by hand and useful for
+   simple icons, masking, animations etc.
+
+   In SVG element reference documentation you can find detail information on
+   all of those shapes.  Note that list of SVG elements contains many other
+   elements that are not shapes.
+
+      https://developer.mozilla.org/en-US/docs/Web/SVG/Element
+
+   There is also <path> element that can draw any shape with straight and
+   curved lines.  Its used the most when SVG is generated from graphical
+   software.  It's not that easy to write it manually but we will go back to
+   it later because it's the most useful of all.
+
+   Different shapes can use different attributes but in all of them you can
+   always look for attributes that:
+
+   a) define position of object
+   b) define shepe of object
+   c) define look (color, border, etc.) of object
+   d) define modifications (animations, masks, etc.) of object
+
+   The more attributes you know the more simple solutions you will be able
+   to apply.  I encourage to look through list of all attributes just to
+   have in mind whats possible.  Below are few most common examples on
+   simple shapes.
+
+   https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute
+
+-->
+
+<svg width="512" height="420" viewBox="0 0 512 420" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Rectangle with x,y position of top left corner set to 10,20.  Size
+       set to 60x80 px, filled with green color and black stroke with
+       thickness of 2px. -->
+
+  <rect x="10" y="20" width="60" height="80" fill="green" stroke="black" stroke-width="2" />
+
+  <!-- This rectangle is a square with the same width and height.  There is
+       no fill color (so its transparent) and thick 5px stroke uses red
+       color defined with hex value.  Also it defines rounded corners with
+       "rx" and "ry".  One with px second with percent unit. -->
+
+  <rect x="80" y="10" rx="10" ry="5%" width="70" height="70" fill="none" stroke="#ff0000" stroke-width="5" />
+
+  <!-- Here we have another square that don't define any fill and stroke
+       colors.  It will have black fill by default and no stroke.  Also only
+       single rounded corner value is defined with "rx" attribute.  This
+       gives all corners the same value of 10 px in this example. -->
+
+  <rect x="95" y="30" rx="10" width="40" height="40" />
+
+  <!-- This rectangle has slightly transparent stroke and more transparent
+       fill defined with longer hex value where #RRGGBBAA RR is red, GG is
+       green, BB is blue and AA is alpha value.  First rectangle with no
+       stroke is just for background so transparency is more visible.
+
+       Note that with thick transparent stroke you can clearly see that
+       stroke is drawn in the middle of the rectangle edge dividing stroke
+       to outside ind inside parts.  There was a proposal to control if
+       stroke should be drawn inside or outside or in the middle but for
+       now it can NOT be controlled. -->
+
+  <rect x="180" y="30" width="60" height="60" fill="red" />
+  <rect x="170" y="10" width="60" height="60" fill="#00000050" stroke="#0000ff88" stroke-width="10" />
+
+  <!-- "stroke-linejoin" control how corners of stroke should look like.
+       First type is the default. -->
+
+  <rect x="260" y="20" width="60" height="60" fill="none" stroke="black" stroke-width="20" stroke-linejoin="miter"/>
+  <rect x="350" y="20" width="60" height="60" fill="none" stroke="black" stroke-width="20" stroke-linejoin="round"/>
+  <rect x="440" y="20" width="60" height="60" fill="none" stroke="black" stroke-width="20" stroke-linejoin="bevel"/>
+
+  <!-- Simple circle with "cx" and "cy" defining center of the circle and
+       "r" setting radius to 80 px.  In this example we use styles for
+       setting fill and stroke value.  Value of "id" attribute is used as
+       selector but we can select SVG elements any way we want.  Note that
+       we can even change values of position and size on :hover. -->
+
+  <circle id="circleWithStyle" cx="90" cy="190" r="80" />
+  <style>
+    #circleWithStyle { fill: red; stroke: black; transition: all .5s }
+    #circleWithStyle:hover { fill: #ff000044; stroke-width: 8px; r: 60px; cy: 170px }
+  </style>
+
+  <!-- Ellipse is essentially the same as circle but radius value is divided
+       into two values "rx" and "ry", this is radius in x and y axis. -->
+  
+  <ellipse cx="250" cy="140" rx="80" ry="30" fill="none" stroke="black" />
+
+  <!-- Line is defined by 2 x,y points.  This example also demonstrate
+       "stroke-linecap".  First value is default, second makes round stroke
+       at each point and last give points square look (in this example it
+       looks like line is longer because of that). -->
+
+  <line x1="350" x2="380" y1="110" y2="200" stroke="black" stroke-width="20" stroke-linecap="butt"/>
+  <line x1="400" x2="430" y1="110" y2="200" stroke="black" stroke-width="20" stroke-linecap="round"/>
+  <line x1="450" x2="480" y1="110" y2="200" stroke="black" stroke-width="20" stroke-linecap="square"/>
+
+  <!-- Polyline is essentially a line with many points.  Points are defined
+       in "x y" pairs separated by spaces in "pints" attribute.  You can
+       also notice "stroke-opacity" attribute and another example with
+       "stroke-linejoin" already demonstrated on rectangles. -->
+
+  <polyline points="200 200 250 300 300 200 350 300 400 200 450 300"
+            fill="none" stroke="black" stroke-width="16" stroke-opacity="1" stroke-linejoin="miter" />
+  <polyline points="200 250 250 350 300 250 350 350 400 250 450 350"
+            fill="none" stroke="black" stroke-width="16" stroke-opacity="50%" stroke-linejoin="round" />
+  <polyline points="200 300 250 400 300 300 350 400 400 300 450 400"
+            fill="none" stroke="black" stroke-width="16" stroke-opacity="0.7" stroke-linejoin="bevel" />
+
+  <!-- Polygon is the same thing as polyline but it will join first
+       and last point with line making closed shape -->
+
+  <polygon points="20 300 25 400 100 400 200 350 180 320" />
+
+</svg>
+
+<!-- PS You can also put text and images but that you will have to
+     discover on your own -->

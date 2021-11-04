@@ -1,0 +1,26 @@
+<meta charset="utf-8">
+<style> svg { border: 1px solid } </style>
+
+<input type="range" step="1" min="0" max="50" value="0">
+
+<pre><code></code></pre>
+
+<svg height="120" width="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect x="50" y="50" width="20" height="20" fill="red" />
+</svg>
+
+<script>
+  const svg   = document.querySelector('svg')
+  const code  = document.querySelector('code')
+  const input = document.querySelector('input')
+
+  function onInput () {
+    const x = input.value
+    const size = 120 - x * 2
+    svg.setAttribute('viewBox', `${x} ${x} ${size} ${size}`)
+    code.innerText = svg.outerHTML
+  }
+
+  input.addEventListener('input', onInput)
+  onInput()
+</script>
