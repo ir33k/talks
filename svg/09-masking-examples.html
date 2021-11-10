@@ -1,0 +1,65 @@
+<meta charset="utf-8">
+<style> svg { border: 1px solid } </style>
+
+<button onclick="toggleMasks()">Click to show or hide masks</button> <br/>
+<button onclick="toggleMasking()">Click to enable or disable masking</button> <br/>
+
+<svg width="256" height="128" viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="mask0">
+      <g fill="white">
+        <circle cx="65" cy="60" r="50" />
+        <circle cx="125" cy="60" r="50" />
+        <circle cx="185" cy="60" r="50" />
+      </g>
+    </mask>
+  </defs>
+  <rect x="10" y="60" width="230" height="60" fill="blue" mask="url(#mask0)" />
+</svg>
+
+<svg width="256" height="128" viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="mask1">
+      <rect x="0" y="0" width="256" height="128" fill="white" />
+      <g fill="black">
+        <circle cx="125" cy="60" r="50" fill="gray" />
+        <circle cx="65" cy="60" r="50" />
+        <circle cx="185" cy="60" r="50" />
+      </g>
+    </mask>
+  </defs>
+  <rect x="10" y="60" width="230" height="60" fill="blue" mask="url(#mask1)" />
+</svg>
+
+<p>hover over svg:</p>
+<svg class="onHover" width="256" height="128" viewBox="0 0 256 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="mask2">
+      <circle cx="-40" cy="60" r="50" fill="white" />
+    </mask>
+  </defs>
+  <rect x="10" y="30" width="230" height="60" fill="blue" mask="url(#mask2)" />
+</svg>
+<style>
+  .onHover circle { transition: cx 1s }
+  .onHover:hover circle { cx: 300px }
+</style>
+
+<script>
+  const svgs = Array.from(document.querySelectorAll('svg'))
+  const maskedElements = Array.from(document.querySelectorAll('[mask]'))
+  const masks = svgs.map((svg, i) => {
+    const mask = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    mask.innerHTML = `<rect x="0" y="0" width="${svg.clientWidth}" height="${svg.clientHeight}" />`
+    mask.innerHTML += svg.querySelector('mask').innerHTML
+    return mask
+  })
+
+  function toggleMasks() {
+    masks.forEach((el, i) => el.parentElement ? el.parentElement.removeChild(el) : svgs[i].appendChild(el))
+  }
+
+  function toggleMasking() {
+    maskedElements.forEach((el, i) => el.setAttribute('mask', el.getAttribute('mask') ? '' : `url(#mask${i})`))
+  }
+</script>

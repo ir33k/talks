@@ -2,8 +2,51 @@
 <style> svg { border: 1px solid } </style>
 
 <!--
+
+   <g> tag is used to group other tags (including other groups) together.
+   This can be used to organize SVG elements, transform multiple elements at
+   once or apply same attribute values to multiple elements.
+
+   https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
+
 -->
 
-<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-  <rect x="-100" y="-100" width="300" height="400" fill="green" />
+<svg width="256" height="512" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- This group will set fill, stroke and stroke width to each rectangle
+       but one of the rectangles will overwrite fill value.-->
+
+  <g fill="none" stroke="black" stroke-width="4">
+    <rect x="20" y="20" width="128" height="128" />
+    <rect x="40" y="40" width="128" height="128" />
+    <rect x="60" y="60" width="128" height="128" fill="red" />
+  </g>
+
+  <!-- You can use group to give it classes or id and use that as
+       selector. -->
+
+  <g class="transparent">
+    <circle cx="80" cy="270" r="60" />
+    <circle cx="100" cy="270" r="60" />
+    <circle cx="120" cy="270" r="60" />
+    <circle cx="140" cy="270" r="60" />
+    <circle cx="160" cy="270" r="60" />
+  </g>
+
+  <style>
+    .transparent > * { opacity: 0.2 }
+  </style>
+
+</svg>
+
+<!-- <svg> tag itself is a little like a group tag in a sense that you can
+     put there "global" (for that SVG) values for fill, stroke etc. -->
+
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"
+     fill="white" stroke="red" stroke-width="4">
+  <rect x="20" y="20" width="128" height="128" />
+  <rect x="40" y="40" width="128" height="128" />
+  <rect x="60" y="60" width="128" height="128" />
+  <rect x="80" y="80" width="128" height="128" />
+  <rect x="100" y="100" width="128" height="128" />
 </svg>
