@@ -1,7 +1,6 @@
 <meta charset="utf-8">
 
 <!-- TODO(irek): Show breakpoints for aspect ratio. -->
-<!-- Breakpoints: 480px, 768px, 1024px, and 1280px. -->
 
 <style>
   /* Main grid layout. */
@@ -36,7 +35,7 @@
       --width-min: 480;
       --width-max: 1280;
       --font-min: 12;
-      --font-max: 24;
+      --font-max: 32;
       /* NOTE that units are defined only in 3 places. */
       --font-size: calc(var(--font-min)*1px + (var(--font-max) - var(--font-min)) * ((var(--container-width) - var(--width-min)*1px) / (var(--width-max) - var(--width-min))));
       font-size: clamp(calc(var(--font-min)*1px), var(--font-size), calc(var(--font-max)*1px));
