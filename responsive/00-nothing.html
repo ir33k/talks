@@ -7,12 +7,6 @@
   aside  { grid-area: 2/1/3/2 }
   main   { grid-area: 2/2/3/3 }
 
-  /* Responsive layout. */
-  @media (max-width: 480px) {
-      aside { grid-area: 2/1/3/3 }
-      main  { grid-area: 3/1/4/3 }
-  }
-
   /* Header flex layout. */
   header { display: flex; justify-content: space-between; align-items: center }
   header h1 { flex-grow: 1 }
@@ -31,12 +25,7 @@
   main { padding: 2rem }
   main h2 { margin-top: 0 }
 
-  /* Breakpoint styles. */
-  html { font-size: 32px } /* Max font size */
-  @media (max-width: 1280px) { html { font-size: 26px } }
-  @media (max-width: 1024px) { html { font-size: 22px } }
-  @media (max-width:  768px) { html { font-size: 15px } }
-  @media (max-width:  480px) { html { font-size: 12px } } /* Min font size */
+  html { font-size: 18px }
 </style>
 
 <body>

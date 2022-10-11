@@ -1,14 +1,15 @@
 <meta charset="utf-8">
 
-<!-- TODO(irek): Show breakpoints for aspect ratio. -->
-
 <style>
   /* Main grid layout. */
   body   { display: grid; grid-template: none / 22% 1fr }
   header { grid-area: 1/1/2/3 }
   aside  { grid-area: 2/1/3/2 }
   main   { grid-area: 2/2/3/3 }
-  @media (max-width: 480px) {
+
+  /* Layout by aspect ratio. */
+  /* Doc: https://developer.mozilla.org/en-US/docs/Web/CSS/@media */
+  @media (max-aspect-ratio: 9/7) {
       aside { grid-area: 2/1/3/3 }
       main  { grid-area: 3/1/4/3 }
   }
@@ -23,6 +24,8 @@
   header img { width: 2.3rem; margin-right: .5rem }
   header h1 { line-height: 1; font-size: 1rem; margin: 0 }
   header form { margin: 0 }
+  header form input { font-size: 0.6rem }
+  header form input[type=text] { width: 10rem }
   aside { padding: 2rem; background: #eee }
   aside h4 { margin-top: 0 }
   aside ul { list-style: none; padding-left: 0 }
@@ -35,7 +38,7 @@
       --width-min: 480;
       --width-max: 1280;
       --font-min: 12;
-      --font-max: 32;
+      --font-max: 28;
       /* NOTE that units are defined only in 3 places. */
       --font-size: calc(var(--font-min)*1px + (var(--font-max) - var(--font-min)) * ((var(--container-width) - var(--width-min)*1px) / (var(--width-max) - var(--width-min))));
       font-size: clamp(calc(var(--font-min)*1px), var(--font-size), calc(var(--font-max)*1px));
