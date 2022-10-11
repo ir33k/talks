@@ -1,0 +1,21 @@
+FLUID RESPONSIVE DESIGN WITHOUT BREAKPOINTS
+
+Characteristics:
+
+	- No jumps while changing size of any page element.
+	- Design sizes and spaced in relation to base font size.
+	- Does not solve jumps in layout change.
+	- No upper and lower limits.
+
+Applications:
+
+	- Whole website.
+	- Widget, graph, visualisation.
+	- Scaling based on parent element size.
+	- Scale in both width and height.
+
+Technical:
+
+	- Use rem, em; px only if necessary.
+	- Media aspect ratio for layout changes.
+	- Some math is involved.
