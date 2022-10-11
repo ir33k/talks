@@ -32,18 +32,9 @@
   main { padding: 2rem }
   main h2 { margin-top: 0 }
 
-  /* Fluid styles. */
+  /* Let it go! */
   html {
-      --container-width : 100vw;        /* cw */
-      --width-min       : 480;          /* w1 */
-      --width-max       : 1280;         /* w2 */
-      --font-min        : 12;           /* f1 */
-      --font-max        : 22;           /* f2 */
-
-      /* f1*1px + (f2 - f1) * ((cw% - w1*1px) / (w2 - w1)) */
-      /* NOTE that units are defined only in 3 places. */
-      --font-size: calc(var(--font-min)*1px + (var(--font-max) - var(--font-min)) * ((var(--container-width) - var(--width-min)*1px) / (var(--width-max) - var(--width-min))));
-      font-size: clamp(calc(var(--font-min)*1px), var(--font-size), calc(var(--font-max)*1px));
+      font-size: min(4vw, 4vh);
   }
 </style>
 
